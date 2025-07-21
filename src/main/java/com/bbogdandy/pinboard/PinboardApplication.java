@@ -1,0 +1,13 @@
+package com.bbogdandy.pinboard;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class PinboardApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(PinboardApplication.class, args);
+	}
+
+}
