@@ -1,0 +1,4 @@
+--CREATE DATABASE pinboard
+--    WITH OWNER = postgres
+--    ENCODING 'UTF8'
+--    TEMPLATE template1;
