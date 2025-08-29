@@ -55,8 +55,8 @@ public class SecurityConfig {
                         .requestMatchers("/auth/user/**").hasAuthority("ROLE_USER")
                         .requestMatchers("/auth/admin/**").hasAuthority("ROLE_ADMIN")
                         // All other endpoints require authentication
-                        //.anyRequest().authenticated()
-                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
+                        //.anyRequest().permitAll()
                 )
                 // Stateless session (required for JWT)
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

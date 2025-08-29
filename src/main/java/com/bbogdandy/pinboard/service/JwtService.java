@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.java.Log;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -14,14 +15,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+@Log
 @Component
 public class JwtService {
 
     public static final String SECRET = "5367566859703373367639792F423F452848284D6251655468576D5A71347437";
 
-    public String generateToken(String username) { // Use email as username
+    public String generateToken(String email) { // Use email as username
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, username);
+        log.info("generating token for: " + email);
+        return createToken(claims, email);
     }
 
     private String createToken(Map<String, Object> claims, String username) {
@@ -40,6 +43,7 @@ public class JwtService {
     }
 
     public String extractUsername(String token) {
+        log.info("extractUsername from token: " + extractClaim(token, Claims::getSubject));
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -66,6 +70,7 @@ public class JwtService {
 
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
+        log.info("Extracted username from string" + username);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 }
