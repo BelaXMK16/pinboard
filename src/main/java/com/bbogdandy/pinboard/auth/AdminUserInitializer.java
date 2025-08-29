@@ -1,12 +1,9 @@
 package com.bbogdandy.pinboard.auth;
 
-import com.bbogdandy.pinboard.entity.UserInfo;
-import com.bbogdandy.pinboard.model.User;
+import com.bbogdandy.pinboard.model.UserInfo;
 import com.bbogdandy.pinboard.repository.UserInfoRepository;
-import com.bbogdandy.pinboard.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 

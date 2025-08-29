@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class NewBoardRequest {
-    public boolean isPublic;
-    public String title;
-    public String description;
-
-
+public class PinRequest {
+    public long boardId;
+    public int x;
+    public int y;
+    public String content;
 }

@@ -18,10 +18,11 @@ public class Pin {
     @Getter
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserInfo user;
 
-    private int position;
-    private String Content;
+    private int x;
+    private int y;
+    private String content;
     private PinType pinType;
 
     @ManyToOne

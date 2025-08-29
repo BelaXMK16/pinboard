@@ -1,7 +1,7 @@
 package com.bbogdandy.pinboard.repository;
 
 
-import com.bbogdandy.pinboard.entity.UserInfo;
+import com.bbogdandy.pinboard.model.UserInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

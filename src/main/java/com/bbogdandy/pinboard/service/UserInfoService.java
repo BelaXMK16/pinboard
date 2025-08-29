@@ -1,6 +1,6 @@
 package com.bbogdandy.pinboard.service;
 
-import com.bbogdandy.pinboard.entity.UserInfo;
+import com.bbogdandy.pinboard.model.UserInfo;
 import com.bbogdandy.pinboard.repository.UserInfoRepository;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
@@ -13,10 +13,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -45,6 +43,12 @@ public class UserInfoService implements UserDetailsService {
         log.info(List.of(new SimpleGrantedAuthority(user.getRole())).toString());
         return new User(user.getEmail(), user.getPassword(),  List.of(new SimpleGrantedAuthority(user.getRole())));
     }
+
+    public UserInfo getSimpleUserInfo(String email) {
+        Optional<UserInfo> userInfo = repository.findByEmail(email);
+        return userInfo.get();
+    }
+
 
     // Add any additional methods for registering or managing users
     public String addUser(UserInfo userInfo) {

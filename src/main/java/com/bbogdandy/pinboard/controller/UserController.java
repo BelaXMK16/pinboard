@@ -1,13 +1,12 @@
 package com.bbogdandy.pinboard.controller;
 
 import com.bbogdandy.pinboard.entity.AuthRequest;
-import com.bbogdandy.pinboard.entity.UserInfo;
+import com.bbogdandy.pinboard.model.UserInfo;
 import com.bbogdandy.pinboard.service.JwtService;
 import com.bbogdandy.pinboard.service.UserInfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -42,17 +41,11 @@ public class UserController {
         return service.addUser(userInfo);
     }
 
-    // Removed the role checks here as they are already managed in SecurityConfig
-
     @PostMapping("/generateToken")
     public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
-        log.info(authRequest.toString());
-
-        log.info(userInfoService.loadUserByUsername(authRequest.getUsername()).toString());
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
         );
-        log.info("Authentication:" + authentication.toString());
         if (authentication.isAuthenticated()) {
             return jwtService.generateToken(authRequest.getUsername());
         } else {

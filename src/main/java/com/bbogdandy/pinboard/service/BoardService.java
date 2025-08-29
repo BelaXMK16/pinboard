@@ -22,5 +22,9 @@ public class BoardService {
     public List<Board> allBoards() {
         return boardRepository.findAll();
     }
+
+    public Board findBoardById(long id) {
+        return boardRepository.findById(id);
+    }
 }
 

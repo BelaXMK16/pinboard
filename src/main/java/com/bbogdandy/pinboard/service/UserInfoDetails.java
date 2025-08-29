@@ -1,6 +1,6 @@
 package com.bbogdandy.pinboard.service;
 
-import com.bbogdandy.pinboard.entity.UserInfo;
+import com.bbogdandy.pinboard.model.UserInfo;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class UserInfoDetails implements UserDetails {
 
-    private String username; // Changed from 'name' to 'email' for clarity
+    private String username;
     @Getter
     private String password;
     private List<GrantedAuthority> authorities;

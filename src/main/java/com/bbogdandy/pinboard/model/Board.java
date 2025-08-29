@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Data
 @Entity
 @Table(name = "boards")
@@ -16,13 +18,20 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Setter
-    private String name;
-    @Setter
     private boolean isPublic;
+    @Setter
+    private String title;
+    @Setter
+    private String description;
     @ManyToOne
-    private User user;
+    private UserInfo owner;
+    @OneToMany
+    private List<Pin> pins;
     @Override
     public String toString() {
-        return "id "+id + "name: " + name + ", isPublic: " + isPublic + ", user: " + user;
+        return "id "+id + ", isPublic: " + isPublic + ", user: " + owner;
+    }
+    public void addPin(Pin pin){
+        pins.add(pin);
     }
 }
