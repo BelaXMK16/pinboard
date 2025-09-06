@@ -1,12 +1,14 @@
 package com.bbogdandy.pinboard.service;
 
-import com.bbogdandy.pinboard.entity.PinRequest;
+import com.bbogdandy.pinboard.entity.request.PinRequest;
 import com.bbogdandy.pinboard.model.Board;
 import com.bbogdandy.pinboard.model.Pin;
 import com.bbogdandy.pinboard.model.UserInfo;
+import com.bbogdandy.pinboard.repository.PinRepository;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,8 @@ public class PinService {
     BoardService boardService;
     @Autowired
     UserInfoService userInfoService;
+    @Autowired
+    PinRepository pinRepository;
 
     public Pin addPin(PinRequest pinRequest) {
         Pin result = new Pin();
@@ -28,13 +32,23 @@ public class PinService {
         String username = auth.getName();
         UserInfo user = userInfoService.getSimpleUserInfo(username);
 
-        result.setUser(user);
+        result.setOwner(user);
         result.setBoard(targetBoard);
         result.setX(pinRequest.getX());
         result.setY(pinRequest.getY());
         result.setContent(pinRequest.getContent());
         targetBoard.addPin(result);
         //TODO: A PINHEZ HOZZAADNI HOGY KI A TULAJDONOSA
-        return result;
+        return pinRepository.save(result);
+    }
+
+    public Pin editPin(PinRequest pinRequest) {
+         Pin toEdit = pinRepository.findById(pinRequest.id);
+         toEdit.setX(pinRequest.getX());
+         toEdit.setY(pinRequest.getY());
+         toEdit.setContent(pinRequest.getContent());
+         pinRepository.save(toEdit);
+         return toEdit;
+
     }
 }

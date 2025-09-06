@@ -1,15 +1,14 @@
 package com.bbogdandy.pinboard.controller;
 
 
-import com.bbogdandy.pinboard.entity.PinRequest;
-import com.bbogdandy.pinboard.model.Board;
+import com.bbogdandy.pinboard.entity.dto.PinDTO;
+import com.bbogdandy.pinboard.entity.request.PinRequest;
 import com.bbogdandy.pinboard.model.Pin;
 import com.bbogdandy.pinboard.service.BoardService;
 import com.bbogdandy.pinboard.service.PinService;
 import lombok.extern.java.Log;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Log
 @RestController
@@ -24,9 +23,23 @@ public class PinController {
     }
 
     @PostMapping("/add")
-    public Pin addPin(@RequestBody PinRequest pinRequest) {
+    public ResponseEntity<PinDTO> addPin(@RequestBody PinRequest pinRequest) {
         Pin result = pinService.addPin(pinRequest);
-        return result;
+
+        return ResponseEntity.ok(new PinDTO(result));
 
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<Pin> updatePinPosition(
+            @PathVariable Long id,
+            @RequestBody PinRequest request) {
+            request.setId(id);
+            log.info("Pin Edited: " + request.toString());
+            Pin result = pinService.editPin(request);
+
+            return ResponseEntity.ok(result);
+
+    }
+
 }
+

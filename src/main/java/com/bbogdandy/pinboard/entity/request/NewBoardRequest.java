@@ -1,4 +1,4 @@
-package com.bbogdandy.pinboard.entity;
+package com.bbogdandy.pinboard.entity.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

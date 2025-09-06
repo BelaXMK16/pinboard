@@ -1,12 +1,15 @@
 package com.bbogdandy.pinboard.controller;
 
-import com.bbogdandy.pinboard.entity.AuthRequest;
+import com.bbogdandy.pinboard.entity.dto.UserInfoDTO;
+import com.bbogdandy.pinboard.entity.dto.UserInfoExtendedDTO;
+import com.bbogdandy.pinboard.entity.request.AuthRequest;
 import com.bbogdandy.pinboard.model.UserInfo;
 import com.bbogdandy.pinboard.service.JwtService;
 import com.bbogdandy.pinboard.service.UserInfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,7 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/user")
 @RequiredArgsConstructor
 @Log
 public class UserController {
@@ -31,25 +34,31 @@ public class UserController {
     @Autowired
     private UserInfoService userInfoService;
 
-    @GetMapping("/welcome")
-    public String welcome() {
-        return "Welcome this endpoint is not secure";
+    public record JwtResponse(String token) {}
+
+    @PostMapping("/auth/addNewUser")
+    public  ResponseEntity<String> addNewUser(@RequestBody UserInfo userInfo) {
+
+        return ResponseEntity.ok(service.addUser(userInfo));
     }
 
-    @PostMapping("/addNewUser")
-    public String addNewUser(@RequestBody UserInfo userInfo) {
-        return service.addUser(userInfo);
-    }
-
-    @PostMapping("/generateToken")
-    public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
+    @PostMapping("/auth/generateToken")
+    public ResponseEntity<JwtResponse> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
         );
         if (authentication.isAuthenticated()) {
-            return jwtService.generateToken(authRequest.getUsername());
+            return ResponseEntity.ok(new JwtResponse(jwtService.generateToken(authRequest.getUsername())));
         } else {
             throw new UsernameNotFoundException("Invalid user request!");
         }
     }
+
+    @GetMapping("/details/{userId}")
+    public ResponseEntity<UserInfoExtendedDTO> getUserDetails(@PathVariable String userId) {
+
+        UserInfoExtendedDTO userInfoDTO = service.getUserProperties(Long.parseLong(userId));
+        return ResponseEntity.ok(userInfoDTO);
+    }
+
 }

@@ -1,11 +1,15 @@
 package com.bbogdandy.pinboard.service;
 
+import com.bbogdandy.pinboard.entity.dto.UserInfoDTO;
+import com.bbogdandy.pinboard.entity.dto.UserInfoExtendedDTO;
 import com.bbogdandy.pinboard.model.UserInfo;
 import com.bbogdandy.pinboard.repository.UserInfoRepository;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,15 +34,12 @@ public class UserInfoService implements UserDetailsService {
         this.encoder = encoder;
     }
 
-    // Method to load user details by username (email)
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        // Fetch user from the database by email (username)
-        Optional<UserInfo> userInfo = repository.findByEmail(email);
+        Optional<UserInfo> userInfo = repository.findByEmail(email); //email alapjan keressuk a usert -- ezt nem tudtam mashogy megoldani hogy kell username alapjan parseolni????
         if (userInfo.isEmpty()) {
             throw new UsernameNotFoundException("User not found with username: " + email);
         }
-        // Convert UserInfo to UserDetails (UserInfoDetails)
         UserInfo user = userInfo.get();
         log.info(List.of(new SimpleGrantedAuthority(user.getRole())).toString());
         return new User(user.getEmail(), user.getPassword(),  List.of(new SimpleGrantedAuthority(user.getRole())));
@@ -49,13 +50,18 @@ public class UserInfoService implements UserDetailsService {
         return userInfo.get();
     }
 
-
-    // Add any additional methods for registering or managing users
     public String addUser(UserInfo userInfo) {
-        // Encrypt password before saving
         log.info(userInfo.toString());
         userInfo.setPassword(encoder.encode(userInfo.getPassword()));
         repository.save(userInfo);
         return "User added successfully!";
+    }
+
+    public UserInfoExtendedDTO getUserProperties(long id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        long askerId = repository.findByEmail(auth.getName()).get().getId();
+        String email = repository.findById(id).get().getEmail();
+        UserInfo user = getSimpleUserInfo(email);
+        return new UserInfoExtendedDTO(user, askerId);
     }
 }

@@ -1,4 +1,4 @@
-package com.bbogdandy.pinboard.entity;
+package com.bbogdandy.pinboard.entity.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PinRequest {
+    public long id;
     public long boardId;
     public int x;
     public int y;

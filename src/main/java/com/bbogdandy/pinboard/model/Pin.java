@@ -18,14 +18,13 @@ public class Pin {
     @Getter
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UserInfo user;
-
+    private UserInfo owner;
     private int x;
     private int y;
     private String content;
     private PinType pinType;
-
     @ManyToOne
+    @JoinColumn(name = "board_id")
     private Board board;
 
 }

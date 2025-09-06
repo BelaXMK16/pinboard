@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -25,8 +26,8 @@ public class Board {
     private String description;
     @ManyToOne
     private UserInfo owner;
-    @OneToMany
-    private List<Pin> pins;
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true) 
+    private List<Pin> pins = new ArrayList<>();
     @Override
     public String toString() {
         return "id "+id + ", isPublic: " + isPublic + ", user: " + owner;

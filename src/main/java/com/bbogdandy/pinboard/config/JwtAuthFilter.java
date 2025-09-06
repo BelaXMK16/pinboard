@@ -33,8 +33,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String path = request.getServletPath();
-        if (path.startsWith("/auth/generateToken") ||
-                path.startsWith("/auth/addNewUser") ||
+        if (path.startsWith("/user/auth/generateToken") ||
+                path.startsWith("/user/auth/addNewUser") ||
                 path.startsWith("/auth/welcome")) {
             filterChain.doFilter(request, response);
             return;
@@ -44,7 +44,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String token = null;
         String username = null;
         log.info(request.getRequestURI());
-        log.info(response.toString());
+        log.info(String.valueOf(response.getStatus()));
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
             username = jwtService.extractUsername(token);
