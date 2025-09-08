@@ -38,7 +38,6 @@ public class PinService {
         result.setY(pinRequest.getY());
         result.setContent(pinRequest.getContent());
         targetBoard.addPin(result);
-        //TODO: A PINHEZ HOZZAADNI HOGY KI A TULAJDONOSA
         return pinRepository.save(result);
     }
 
