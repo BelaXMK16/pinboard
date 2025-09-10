@@ -2,7 +2,9 @@ package com.bbogdandy.pinboard.service;
 
 import com.bbogdandy.pinboard.entity.dto.UserInfoDTO;
 import com.bbogdandy.pinboard.entity.dto.UserInfoExtendedDTO;
+import com.bbogdandy.pinboard.model.Completeable;
 import com.bbogdandy.pinboard.model.UserInfo;
+import com.bbogdandy.pinboard.model.enumerators.QuestType;
 import com.bbogdandy.pinboard.repository.UserInfoRepository;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
@@ -51,7 +53,6 @@ public class UserInfoService implements UserDetailsService {
     }
 
     public String addUser(UserInfo userInfo) {
-        log.info(userInfo.toString());
         userInfo.setPassword(encoder.encode(userInfo.getPassword()));
         repository.save(userInfo);
         return "User added successfully!";
@@ -63,5 +64,12 @@ public class UserInfoService implements UserDetailsService {
         String email = repository.findById(id).get().getEmail();
         UserInfo user = getSimpleUserInfo(email);
         return new UserInfoExtendedDTO(user, askerId);
+    }
+
+    public List<Completeable> incrementQuests(QuestType questType) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserInfo user = repository.findByEmail(auth.getName()).get();
+        List<Completeable> completedQuests = user.triggerQuests(questType);
+        return completedQuests;
     }
 }
