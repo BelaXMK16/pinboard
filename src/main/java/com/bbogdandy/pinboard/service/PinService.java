@@ -31,13 +31,13 @@ public class PinService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
         UserInfo user = userInfoService.getSimpleUserInfo(username);
-
         result.setOwner(user);
         result.setBoard(targetBoard);
         result.setX(pinRequest.getX());
         result.setY(pinRequest.getY());
         result.setContent(pinRequest.getContent());
         targetBoard.addPin(result);
+        user.addPin(result);
         return pinRepository.save(result);
     }
 

@@ -1,7 +1,6 @@
 package com.bbogdandy.pinboard.model;
 
 import jakarta.persistence.Entity;
-import lombok.Setter;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;

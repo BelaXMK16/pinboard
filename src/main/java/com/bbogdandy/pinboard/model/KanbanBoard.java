@@ -2,9 +2,6 @@ package com.bbogdandy.pinboard.model;
 
 import jakarta.persistence.Entity;
 import lombok.Setter;
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 public class KanbanBoard extends Board {
     @Setter

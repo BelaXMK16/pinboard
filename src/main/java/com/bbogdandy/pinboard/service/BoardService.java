@@ -2,11 +2,9 @@ package com.bbogdandy.pinboard.service;
 
 import com.bbogdandy.pinboard.entity.dto.BoardInfoExtendedDto;
 import com.bbogdandy.pinboard.entity.request.NewBoardRequest;
-import com.bbogdandy.pinboard.model.Board;
-import com.bbogdandy.pinboard.model.CalendarBoard;
-import com.bbogdandy.pinboard.model.KanbanBoard;
-import com.bbogdandy.pinboard.model.UserInfo;
+import com.bbogdandy.pinboard.model.*;
 import com.bbogdandy.pinboard.repository.BoardRepository;
+import com.bbogdandy.pinboard.repository.PinRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,11 +19,12 @@ import java.util.List;
 public class BoardService {
 
     private final BoardRepository boardRepository;
-
+    private final PinRepository pinRepository;
     private final UserInfoService userInfoService;
 
-    public BoardService(BoardRepository boardRepository, UserInfoService userInfoService) {
+    public BoardService(BoardRepository boardRepository, PinRepository pinRepository, UserInfoService userInfoService) {
         this.boardRepository = boardRepository;
+        this.pinRepository = pinRepository;
         this.userInfoService = userInfoService;
     }
 
@@ -73,9 +72,20 @@ public class BoardService {
         board.setDescription(request.getDescription());
 
         log.debug("Creating Board with parameters: " + board);
-
-        // TODO: save to repository if needed
+        boardRepository.save(board);
         return board;
+    }
+
+    public void deleteOverduePins(Board board){
+        List<Pin> pins = board.getPins();
+        for(Pin pin : pins){
+            if(pin.getDisappearAt()!=null){
+                if(LocalDate.now().isAfter(pin.getDisappearAt())){
+                    board.removePin(pin);
+
+                }
+            }
+        }
     }
 
 }

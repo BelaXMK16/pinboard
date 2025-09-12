@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,5 +40,11 @@ public class Board {
     }
     public void addPin(Pin pin){
         pins.add(pin);
+        pin.setBoard(this);
     }
+    public void removePin(Pin pin) {
+        pins.remove(pin);
+        pin.setBoard(null);
+    }
+
 }

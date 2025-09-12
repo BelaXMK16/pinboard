@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Data
 @Entity
 @Table(name = "pins")
@@ -27,5 +29,7 @@ public class Pin {
     @ManyToOne
     @JoinColumn(name = "board_id")
     private Board board;
+    private LocalDate appearAt;
+    private LocalDate disappearAt;
 
 }

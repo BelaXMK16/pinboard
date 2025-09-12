@@ -38,7 +38,6 @@ public class PinController {
             Pin result = pinService.editPin(request);
 
             return ResponseEntity.ok(result);
-
     }
 
 }

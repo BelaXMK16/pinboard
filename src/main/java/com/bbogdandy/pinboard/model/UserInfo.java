@@ -24,16 +24,25 @@ public class UserInfo {
     private String role;
     private int credits;
 
-    @OneToMany
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pin> pins = new ArrayList<>();
-    @OneToMany
-    private List<Board> boards  = new ArrayList<>();
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Board> boards = new ArrayList<>();
 
-    @OneToMany
-    private List<UserInfo> invites  = new ArrayList<>();
-    @OneToMany
-    private List<Completeable> quests  = new ArrayList<>();
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinTable(
+            name = "user_quests",
+            joinColumns = @JoinColumn(name = "user_id"), //a tulajdonos entitasra mutat
+            inverseJoinColumns = @JoinColumn(name = "quest_id")// a cel entitasra mutat
+    )
+    private List<Completeable> quests = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinTable(
+            name = "user_milestones",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "milestone_id")
+    )
     private List<Completeable> milestones = new ArrayList<>();
 
 
@@ -71,4 +80,23 @@ public class UserInfo {
         return  completedList;
     }
 
+    // helper methods (recommended)
+    public void addPin(Pin pin) {
+        pins.add(pin);
+        pin.setOwner(this);
+    }
+
+    public void removePin(Pin pin) {
+        pins.remove(pin);
+        pin.setOwner(null);
+    }
+
+    public void addBoard(Board board) {
+        boards.add(board);
+        board.setOwner(this);
+    }
+    public void removeBoard(Board board) {
+        boards.remove(board);
+        board.setOwner(null);
+    }
 }
