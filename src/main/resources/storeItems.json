@@ -1,0 +1,50 @@
+[
+  {
+    "id": 0,
+    "name": "Kan-ban tábla",
+    "price": 500,
+    "description": "Egy Kan-ban tábla, tervezésre tökéletes"
+  },
+  {
+    "id": 1,
+    "name": "Naptár",
+    "price": 500,
+    "description": "Egy naptár, ezen biztos nem fogjátok elkeverni hogy mikor mi történik!"
+  },
+  {
+    "id": 2,
+    "name": "Időzített eltűnésű tű",
+    "price": 300,
+    "description": "Ha azt szeretnéd hogy egy idő után eltűnjenek a tűid, akkor itt a megfelelő tű számodra! Eltűnik a megadott időpontban."
+  },
+  {
+    "id": 3,
+    "name": "Időzített megjelenésű tű",
+    "price": 300,
+    "description": "Valamit azonnal ki szeretnél tűzni, de nem alkalmas rá az időpont? Akkor a megjelenő tű neked való: csak a megadott idő után lesz látható"
+  },
+  {
+    "id": 4,
+    "name": "Vörös Fonál",
+    "price": 400,
+    "description": "Nem tudod kifejezni a gondolataid egy tűben? Akkor a vörös fonál neked való! Nem köt össze tűket amik más színnel vannak összekötve. "
+  },
+  {
+    "id": 5,
+    "name": "Sárga Fonál",
+    "price": 400,
+    "description": "Nem tudod kifejezni a gondolataid egy tűben? Akkor a sárga fonál neked való! Nem köt össze tűket amik más színnel vannak összekötve. "
+  },
+  {
+    "id": 6,
+    "name": "Kék Fonál",
+    "price": 400,
+    "description": "Nem tudod kifejezni a gondolataid egy tűben? Akkor a kék fonál neked való! Nem köt össze tűket amik más színnel vannak összekötve. "
+  },
+  {
+    "id": 7,
+    "name": "Zöld Fonál",
+    "price": 400,
+    "description": "Nem tudod kifejezni a gondolataid egy tűben? Akkor a zöld fonál neked való! Nem köt össze tűket amik más színnel vannak összekötve. "
+  }
+]
