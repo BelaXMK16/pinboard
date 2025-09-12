@@ -1,18 +1,21 @@
 package com.bbogdandy.pinboard.model;
 
 import com.bbogdandy.pinboard.model.enumerators.QuestType;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class UserInfo {
 
     @Id
@@ -23,6 +26,11 @@ public class UserInfo {
     private String password;
     private String role;
     private int credits;
+
+    public UserInfo(){
+        rerollQuests();
+        initMilestones();
+    }
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pin> pins = new ArrayList<>();
@@ -80,17 +88,27 @@ public class UserInfo {
         return  completedList;
     }
 
-    // helper methods (recommended)
+    private void initMilestones() {
+        try (InputStream is = getClass().getResourceAsStream("/milestones.json")) {
+            ObjectMapper mapper = new ObjectMapper();
+            List<Completeable> templates = mapper.readValue(is, new TypeReference<>() {});
+            templates.forEach(t -> {
+                t.setProgress(0);
+                milestones.add(t);
+            });
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to initialize milestones", e);
+        }
+    }
+
     public void addPin(Pin pin) {
         pins.add(pin);
         pin.setOwner(this);
     }
-
     public void removePin(Pin pin) {
         pins.remove(pin);
         pin.setOwner(null);
     }
-
     public void addBoard(Board board) {
         boards.add(board);
         board.setOwner(this);
