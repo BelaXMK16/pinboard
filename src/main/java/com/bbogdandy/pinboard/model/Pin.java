@@ -9,6 +9,7 @@ import lombok.Setter;
 @Data
 @Entity
 @Table(name = "pins")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Pin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

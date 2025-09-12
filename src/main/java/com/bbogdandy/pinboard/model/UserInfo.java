@@ -22,7 +22,7 @@ public class UserInfo {
     private String email;
     private String password;
     private String role;
-    private int xp;
+    private int credits;
 
     @OneToMany
     private List<Pin> pins = new ArrayList<>();
@@ -31,7 +31,9 @@ public class UserInfo {
 
     @OneToMany
     private List<UserInfo> invites  = new ArrayList<>();
+    @OneToMany
     private List<Completeable> quests  = new ArrayList<>();
+    @OneToMany
     private List<Completeable> milestones = new ArrayList<>();
 
 
@@ -44,7 +46,7 @@ public class UserInfo {
 
     public void cashOutQuest(Completeable quest){
         this.quests.remove(quest);
-        this.xp += quest.getReward();
+        this.credits += quest.getReward();
         rollNewQuest();
     }
 

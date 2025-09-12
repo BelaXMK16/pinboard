@@ -38,16 +38,6 @@ public class BoardController {
     public ResponseEntity<BoardInfoExtendedDto> createBoard(@RequestBody NewBoardRequest request) {
         Board board = new Board();
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
-        UserInfo user = userInfoService.getSimpleUserInfo(username);
-
-        board.setPublic(request.isPublic());
-        board.setOwner(user);
-        board.setTitle(request.getTitle());
-        board.setDescription(request.getDescription());
-        log.info("Creating Board with parameters: "+ board);
-        //TODO: ezt át kell rakni a service-be
         BoardInfoExtendedDto saved = new BoardInfoExtendedDto(boardService.saveBoard(board));
 
         return ResponseEntity.ok(saved);

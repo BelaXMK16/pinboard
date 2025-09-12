@@ -11,6 +11,7 @@ public class NewBoardRequest {
     public boolean isPublic;
     public String title;
     public String description;
-
+    public String type; //calendar,kanban
+    public String startingDate;
 
 }

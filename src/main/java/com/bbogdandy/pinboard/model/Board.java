@@ -14,12 +14,17 @@ import java.util.List;
 @Table(name = "boards")
 @NoArgsConstructor
 @AllArgsConstructor
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Setter
     private boolean isPublic;
+    @Setter
+    private int width = 1123;
+    @Setter                     // fekvo a4-es lap
+    private int height = 794;
     @Setter
     private String title;
     @Setter
