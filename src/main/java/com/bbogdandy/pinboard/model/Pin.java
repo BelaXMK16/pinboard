@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.*;
 
 @Data
 @Entity
@@ -32,4 +33,34 @@ public class Pin {
     private LocalDate appearAt;
     private LocalDate disappearAt;
 
+    @OneToMany(mappedBy = "from", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Connection> connectionsFrom = new ArrayList<>();
+
+    @OneToMany(mappedBy = "to", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Connection> connectionsTo = new ArrayList<>();
+
+
+    public Set<Pin> getConnectedPinsByColor(Pin start, String color) {
+        Set<Pin> visited = new HashSet<>();
+        Deque<Pin> stack = new ArrayDeque<>();
+        stack.push(start);
+
+        while (!stack.isEmpty()) {
+            Pin current = stack.pop();
+            if (!visited.add(current)) continue;
+
+            // check outgoing connections
+            for (Connection conn : current.getConnectionsFrom()) {
+                if (color.equals(conn.getColor())) {
+                    stack.push(conn.getTo());
+                }
+            }
+            for (Connection conn : current.getConnectionsTo()) {
+                if (color.equals(conn.getColor())) {
+                    stack.push(conn.getFrom());
+                }
+            }
+        }
+        return visited;
+    }
 }
