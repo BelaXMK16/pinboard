@@ -1,0 +1,30 @@
+[
+  {
+    "questType": "ADD_BOARD",
+    "name": "Kezdő táblakészítő",
+    "goal": 1,
+    "reward": 100,
+    "description": "Hozz létre egy táblát!"
+  },
+  {
+    "questType": "ADD_BOARD",
+    "name": "Haladó táblakészítő",
+    "goal": 5,
+    "reward": 300,
+    "description": "Hozz létre 5 táblát!"
+  },
+  {
+    "questType": "ADD_BOARD",
+    "name": "Mester táblakészítő",
+    "goal": 10,
+    "reward": 500,
+    "description": "Hozz létre 10 táblát!"
+  },
+  {
+    "questType": "ADD_PIN",
+    "name": "Kezdő tűző",
+    "goal": 1,
+    "reward": 100,
+    "description": "Hozz létre 1 tűt!"
+  }
+]

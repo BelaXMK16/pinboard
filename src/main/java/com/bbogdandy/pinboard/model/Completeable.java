@@ -1,9 +1,7 @@
 package com.bbogdandy.pinboard.model;
 
 import com.bbogdandy.pinboard.model.enumerators.QuestType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,16 +13,18 @@ import java.util.Random;
 @AllArgsConstructor
 public class Completeable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private QuestType questType;
     private String name;
     private String description;
     private int goal;
     private int reward;
-    private int progress;
+
+    private int progress = 0;
 
     public Completeable() {
-        this.progress = 0;
         this.reward = 100;
         this.questType = QuestType.values()[new Random().nextInt(QuestType.values().length)];
         Random rand = new Random();
