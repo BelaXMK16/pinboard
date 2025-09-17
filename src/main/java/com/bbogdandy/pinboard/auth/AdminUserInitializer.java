@@ -71,6 +71,7 @@ public class AdminUserInitializer implements CommandLineRunner {
             Board publicBoard = new Board();
             publicBoard.setPublic(true);
             publicBoard.setOwner(user);
+            publicBoard.setTitle("Public Board Iam a public boadr!");
             publicBoard.setDescription("this is a public testing board");
 
             Pin publicPin = new Pin();
@@ -89,6 +90,7 @@ public class AdminUserInitializer implements CommandLineRunner {
             Board privateBoard = new Board();
             privateBoard.setPublic(false);
             privateBoard.setOwner(user);
+            privateBoard.setTitle("HEY IM PRIVATE");
             privateBoard.setDescription("this is a private testing board");
 
             Pin privatePin = new Pin();

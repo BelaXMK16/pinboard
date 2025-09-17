@@ -1,6 +1,5 @@
 package com.bbogdandy.pinboard.controller;
 
-import com.bbogdandy.pinboard.entity.dto.UserInfoDTO;
 import com.bbogdandy.pinboard.entity.dto.UserInfoExtendedDTO;
 import com.bbogdandy.pinboard.entity.request.AuthRequest;
 import com.bbogdandy.pinboard.model.Completeable;
@@ -38,7 +37,7 @@ public class UserController {
     @Autowired
     private UserInfoService userInfoService;
 
-    public record JwtResponse(String token) {}
+    public record JwtResponse(String token, long id) {}
 
     @PostMapping("/auth/addNewUser")
     public  ResponseEntity<String> addNewUser(@RequestBody UserInfo userInfo) {
@@ -52,7 +51,9 @@ public class UserController {
                 new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
         );
         if (authentication.isAuthenticated()) {
-            return ResponseEntity.ok(new JwtResponse(jwtService.generateToken(authRequest.getUsername())));
+            return ResponseEntity.ok(
+                    new JwtResponse(jwtService.generateToken(authRequest.getUsername()),service.getIdFromEmail(authRequest.getUsername()))
+            );
         } else {
             throw new UsernameNotFoundException("Invalid user request!");
         }

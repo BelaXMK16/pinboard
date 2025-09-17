@@ -50,4 +50,8 @@ public class PinService {
          return toEdit;
 
     }
+
+    public void deletePin(Long pinId) {
+        pinRepository.deleteById(pinId);
+    }
 }

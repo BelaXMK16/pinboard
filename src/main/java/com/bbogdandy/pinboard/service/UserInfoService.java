@@ -1,6 +1,5 @@
 package com.bbogdandy.pinboard.service;
 
-import com.bbogdandy.pinboard.entity.dto.UserInfoDTO;
 import com.bbogdandy.pinboard.entity.dto.UserInfoExtendedDTO;
 import com.bbogdandy.pinboard.model.Completeable;
 import com.bbogdandy.pinboard.model.UserInfo;
@@ -71,5 +70,9 @@ public class UserInfoService implements UserDetailsService {
         UserInfo user = repository.findByEmail(auth.getName()).get();
         List<Completeable> completedQuests = user.triggerQuests(questType);
         return completedQuests;
+    }
+
+    public long getIdFromEmail(String email){
+        return repository.findByEmail(email).get().getId();
     }
 }
