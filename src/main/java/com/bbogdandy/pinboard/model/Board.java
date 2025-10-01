@@ -47,4 +47,12 @@ public class Board {
         pin.setBoard(null);
     }
 
+    public LocalDate getDate(){return null;}
+    public void setStartDate(LocalDate date){};
+
+    public String echoType(){
+        return "normal";
+    }
+
+
 }

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PinDTO extends Board {
+public class    PinDTO extends Board {
     private Long id;
     private String ownerName;
     private long ownerId;

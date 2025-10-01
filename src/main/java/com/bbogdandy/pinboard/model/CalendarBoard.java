@@ -9,6 +9,7 @@ import java.time.LocalDate;
 public class CalendarBoard extends Board {
     LocalDate startDate; // amugy jo lenne ha nem felejtenem el neki az adott honap elso napjat megadni
 
+    @Override
     public void setStartDate(LocalDate date) {
         this.startDate=date.withDayOfMonth(1);
     }
@@ -34,5 +35,13 @@ public class CalendarBoard extends Board {
         int cellPositionX = x / cellWidth; // kiszamolja hanyadik cellaban van az adott tu
         int cellPositionY = y / cellHeight;// kiszamolja hanyadik oszlopban van az adott tu
         return cellPositionX + (cellPositionY)*7 - dayOffset(); //a honap n.-edik napjat kapjuk vissza
+    }
+    @Override
+    public String echoType(){
+        return "calendar";
+    }
+    @Override
+    public LocalDate getDate(){
+        return this.startDate;
     }
 }

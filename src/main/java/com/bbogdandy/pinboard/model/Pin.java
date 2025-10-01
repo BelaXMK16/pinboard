@@ -3,6 +3,7 @@ package com.bbogdandy.pinboard.model;
 import com.bbogdandy.pinboard.types.PinType;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,13 +35,14 @@ public class Pin {
     private LocalDate disappearAt;
 
     @OneToMany(mappedBy = "from", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Getter
     private List<Connection> connectionsFrom = new ArrayList<>();
 
     @OneToMany(mappedBy = "to", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Connection> connectionsTo = new ArrayList<>();
 
 
-    public Set<Pin> getConnectedPinsByColor(Pin start, String color) {
+    public static Set<Pin> getConnectedPinsByColor(Pin start, String color) {
         Set<Pin> visited = new HashSet<>();
         Deque<Pin> stack = new ArrayDeque<>();
         stack.push(start);

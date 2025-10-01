@@ -11,8 +11,16 @@ import com.bbogdandy.pinboard.repository.PinRepository;
 import com.bbogdandy.pinboard.service.BoardService;
 import com.bbogdandy.pinboard.service.PinService;
 import lombok.extern.java.Log;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 @Log
 @RestController
@@ -39,16 +47,32 @@ public class PinController {
         return ResponseEntity.ok(new PinDTO(result));
 
     }
-    @PutMapping("/{id}")
-    public ResponseEntity<Pin> updatePinPosition(
+    @PutMapping(path = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<PinDTO> updatePinPosition(
             @PathVariable Long id,
-            @RequestBody PinRequest request) {
-            request.setId(id);
-            log.info("Pin Edited: " + request.toString());
-            Pin result = pinService.editPin(request);
+            @RequestParam("x") int x,
+            @RequestParam("y") int y,
+            @RequestParam("content") String content,
+            @RequestParam(value = "file", required = false) MultipartFile file
+    ) throws IOException {
+        PinRequest request = new PinRequest();
+        request.setId(id);
+        request.setX(x);
+        request.setY(y);
+        request.setContent(content);
 
-            return ResponseEntity.ok(result);
+        if (file != null && !file.isEmpty()) {
+            String fileName = saveFile(file);
+            request.setContent(content + fileName);
+            log.info(fileName);
+        }
+
+        log.info("Pin Edited: " + request.toString());
+
+        Pin result = pinService.editPin(request);
+        return ResponseEntity.ok(new PinDTO(result));
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePin(@PathVariable Long id){
         pinService.deletePin(id);
@@ -69,13 +93,34 @@ public class PinController {
         conn.setColor(request.getColor());
 
         conn = connectionRepository.save(conn);
-         ConnectionResponse result = new ConnectionResponse(
-                 conn.getId(),
-                 new PinResponse(conn.getFrom().getId(), conn.getFrom().getX(),conn.getFrom().getY(),conn.getFrom().getContent()),
-                 new PinResponse(conn.getTo().getId(), conn.getTo().getX(),conn.getTo().getY(), conn.getTo().getContent()),
-                 conn.getColor()
-         );
-         return ResponseEntity.ok(result);
+        if(conn.getFrom().getId() == conn.getTo().getId()) return ResponseEntity.ok().build();
+        ConnectionResponse result = new ConnectionResponse(
+                conn.getId(),
+                new PinResponse(conn.getFrom().getId(), conn.getFrom().getX(),conn.getFrom().getY(),conn.getFrom().getContent()),
+                new PinResponse(conn.getTo().getId(), conn.getTo().getX(),conn.getTo().getY(), conn.getTo().getContent()),
+                conn.getColor()
+        );
+        return ResponseEntity.ok(result);
     }
+    @DeleteMapping("/connections/{id}")
+    public ResponseEntity<String> deleteConnection(@PathVariable Long id) {
+
+            connectionRepository.deleteById(id);
+            return ResponseEntity.ok("Connection deleted.");
+    }
+
+    private String saveFile(MultipartFile file) throws IOException {
+        String uploadsDir = "uploads/";
+        Path uploadsPath = Paths.get(uploadsDir);
+        if (!Files.exists(uploadsPath)) {
+            Files.createDirectories(uploadsPath);
+        }
+        String originalFilename = file.getOriginalFilename();
+        String fileName = System.currentTimeMillis() + "_" + originalFilename;
+        Path filePath = uploadsPath.resolve(fileName);
+        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        return "/uploads/" + fileName;
+    }
+
 }
 

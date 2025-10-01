@@ -13,5 +13,9 @@ public class KanbanBoard extends Board {
         int stageWidth = this.getWidth() / stagesArray.length;
         return stagesArray[x/stageWidth]; // SURELY lefele fog kerekiteni
     }
+    @Override
+    public String echoType(){
+        return "kanban";
+    }
 
 }
