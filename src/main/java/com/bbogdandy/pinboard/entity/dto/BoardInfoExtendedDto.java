@@ -21,9 +21,12 @@ public class BoardInfoExtendedDto extends BoardInfoDTO{
     private String ownerEmail;
     @Setter
     private List<PinDTO> pins;
+    private List<String> columns;
+
     public void addPin(PinDTO pin){
         pins.add(pin);
     }
+
 
     public BoardInfoExtendedDto(Board board) {
         super(board);
@@ -31,6 +34,7 @@ public class BoardInfoExtendedDto extends BoardInfoDTO{
         this.ownerName = board.getOwner().getUsername();
         this.ownerEmail = board.getOwner().getEmail();
         this.pins = new ArrayList<>();
+        this.columns = board.getColumnsAsList();
         for (Pin pin : board.getPins()) {
             PinDTO pinDTO = new PinDTO(pin);
             pins.add(pinDTO);

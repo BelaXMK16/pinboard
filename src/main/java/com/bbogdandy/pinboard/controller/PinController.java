@@ -52,6 +52,7 @@ public class PinController {
             @PathVariable Long id,
             @RequestParam("x") int x,
             @RequestParam("y") int y,
+            @RequestParam("color") String color,
             @RequestParam("content") String content,
             @RequestParam(value = "file", required = false) MultipartFile file
     ) throws IOException {
@@ -59,6 +60,9 @@ public class PinController {
         request.setId(id);
         request.setX(x);
         request.setY(y);
+        if(color!=null) request.setPinColor(color);
+        else request.setPinColor("black");
+
         request.setContent(content);
 
         if (file != null && !file.isEmpty()) {

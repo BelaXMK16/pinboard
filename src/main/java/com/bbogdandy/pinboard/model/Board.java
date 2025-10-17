@@ -54,5 +54,9 @@ public class Board {
         return "normal";
     }
 
+    public List<String> getColumnsAsList(){
+        return new ArrayList<String>();
+    }
+
 
 }

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class    PinDTO extends Board {
+public class   PinDTO extends Board {
     private Long id;
     private String ownerName;
     private long ownerId;
@@ -18,7 +18,7 @@ public class    PinDTO extends Board {
     private int x;
     private int y;
     private String content;
-    private PinType pinType;
+    private String color;
 
     public PinDTO(Pin pin) {
         this.id = pin.getId();
@@ -28,6 +28,6 @@ public class    PinDTO extends Board {
         this.x = pin.getX();
         this.y = pin.getY();
         this.content = pin.getContent();
-        this.pinType = pin.getPinType();
+        this.color = pin.getColor();
     }
 }

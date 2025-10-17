@@ -27,7 +27,7 @@ public class Pin {
     private int x;
     private int y;
     private String content;
-    private PinType pinType;
+    private String Color;
     @ManyToOne
     @JoinColumn(name = "board_id")
     private Board board;
@@ -40,7 +40,6 @@ public class Pin {
 
     @OneToMany(mappedBy = "to", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Connection> connectionsTo = new ArrayList<>();
-
 
     public static Set<Pin> getConnectedPinsByColor(Pin start, String color) {
         Set<Pin> visited = new HashSet<>();

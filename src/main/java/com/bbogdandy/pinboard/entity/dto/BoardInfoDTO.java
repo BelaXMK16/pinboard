@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -27,6 +28,8 @@ public class BoardInfoDTO {
     private LocalDate startDate;
     @Setter
     private String boardType;
+    @Setter
+    private List<String> columns;
 
     public BoardInfoDTO(Board board) {
         this.id = board.getId();
@@ -35,5 +38,6 @@ public class BoardInfoDTO {
         this.title = board.getTitle();
         this.description = board.getDescription();
         this.startDate = board.getDate();
+        this.columns = board.getColumnsAsList();
     }
 }

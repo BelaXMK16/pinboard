@@ -56,6 +56,9 @@ public class BoardService {
                 break;
             case "kanban":
                 KanbanBoard kanbanBoard = new KanbanBoard();
+                String columnsString = "";
+                columnsString =  String.join(",",request.getColumns());
+                kanbanBoard.setColumns(columnsString);
                 board = kanbanBoard;
                 break;
             default:

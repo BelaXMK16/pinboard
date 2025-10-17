@@ -36,6 +36,7 @@ public class PinService {
         result.setX(pinRequest.getX());
         result.setY(pinRequest.getY());
         result.setContent(pinRequest.getContent());
+        result.setColor("red");
         targetBoard.addPin(result);
         user.addPin(result);
         return pinRepository.save(result);
@@ -43,10 +44,12 @@ public class PinService {
 
     public Pin editPin(PinRequest pinRequest) {
          Pin toEdit = pinRepository.findById(pinRequest.id);
+         //TODO: EZEKET A FAJTA KONVERZIÓKAT ÁTÍRNI EGY MAPPERBE, PREFERALHATOAN A SAJAT OSZTALYBA!
          toEdit.setX(pinRequest.getX());
          toEdit.setY(pinRequest.getY());
          toEdit.setContent(pinRequest.getContent());
-         pinRepository.save(toEdit);
+         toEdit.setColor(pinRequest.getPinColor());
+         pinRepository.save(toEdit);    
          return toEdit;
 
     }

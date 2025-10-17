@@ -10,16 +10,20 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class NewBoardRequest {
 
-    @JsonProperty("isPublic")  // keeps frontend JSON field the same
+    @JsonProperty("isPublic")
     private boolean publicBoard;
 
     private String title;
     private String description;
-    private String type;          // normal, calendar, kanban
-    private String startingDate;  // optional, used for calendar boards
+    private String type;
+    private String startingDate;
+    private List<String> columns;
+
 }

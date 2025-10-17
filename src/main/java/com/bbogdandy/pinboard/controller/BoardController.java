@@ -37,11 +37,8 @@ public class BoardController {
     }
     @GetMapping("/{id}")
     public ResponseEntity<BoardInfoExtendedDto> getBoards(@PathVariable String id) {
-        return ResponseEntity.ok(
-                new BoardInfoExtendedDto(
-                        boardService.findBoardById(Long.parseLong(id))
-                )
-        );
+        BoardInfoExtendedDto result =  new BoardInfoExtendedDto(boardService.findBoardById(Long.parseLong(id)));
+            return ResponseEntity.ok(result);
     }
     @GetMapping("/{id}/allConnections")
     public ResponseEntity<List<ConnectionDTO>> getPinConnectionsForBoard(@PathVariable String id) {
